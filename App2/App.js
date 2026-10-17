@@ -2,16 +2,17 @@
 /* 1. Zona de importaciones */
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import {Saludo} from './components/Saludo.js';
-import {Saludo2} from './components/Saludo2.js'
+import { Saludo } from './components/Saludo.js';
+import { Saludo2 } from './components/Saludo2.js'
+import { Perfil } from './components/Perfil.js'
 
 
-/* 2. Zona render o Main*/
+/* 2. Zona render o Main
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hola Mundo React Native!</Text>
+Codigo de la pratica 6:
+
+
+<Text>Hola Mundo React Native!</Text>
 
 
       <Image source={require('./assets/wave.png')} />
@@ -26,6 +27,18 @@ export default function App() {
 
     <Saludo2/>
       <StatusBar style="auto" />
+
+    <Text> __________________________________________  </Text>
+
+*/
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Perfil nombre="Mathias Santiago Reyes Antunez" carrera="TIID-221" materia="Apps Moviles" cuatrimestre="4" />
+      <Perfil nombre="Juan Pérez" carrera="TIID-221" materia="Apps Moviles" cuatrimestre="4" />
+      <Perfil nombre="María García" carrera="TIID-221" materia="Apps Moviles" cuatrimestre="4" />
+
     </View>
   );
 }
