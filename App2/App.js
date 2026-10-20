@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f4eed5',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
+    alignItems: 'left',
   },
   tarjetas1:{
     backgroundColor: 'pink',
