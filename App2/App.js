@@ -1,10 +1,7 @@
 
 /* 1. Zona de importaciones */
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Saludo } from './components/Saludo.js';
-import { Saludo2 } from './components/Saludo2.js'
-import { Perfil } from './components/Perfil.js'
+import { StyleSheet, View } from 'react-native';
+import MenuScreen from './screens/MenuScreen.js';
 
 
 /* 2. Zona render o Main
@@ -35,10 +32,7 @@ Codigo de la pratica 6:
 export default function App() {
   return (
     <View style={styles.container}>
-      <Perfil style={styles.tarjetas1} nombre="Mathias Santiago Reyes Antunez" carrera="TIID-221" materia="Apps Moviles" cuatrimestre="4"/>
-      <Perfil style={styles.tarjetas2} nombre="Juan Pérez" carrera="TIID-221" materia="Apps Moviles" cuatrimestre="4" />
-      <Perfil style={styles.tarjetas3} nombre="María García" carrera="TIID-221" materia="Apps Moviles" cuatrimestre="4" />
-
+      <MenuScreen></MenuScreen>
     </View>
   );
 }
@@ -52,14 +46,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'left',
-  },
-  tarjetas1:{
-    backgroundColor: 'pink',
-  },
-  tarjetas2:{
-    backgroundColor: 'yellow',
-  },
-  tarjetas3:{
-    backgroundColor: 'orange',
   }
 });
