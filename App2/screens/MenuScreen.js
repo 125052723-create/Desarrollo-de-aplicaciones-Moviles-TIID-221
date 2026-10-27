@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#f4eed5',
         flexDirection: 'column',
         justifyContent: 'space-evenly',
-        alignItems: 'left',
+        alignItems: 'center'
     }
 });
