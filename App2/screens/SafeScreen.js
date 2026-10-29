@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tarjeta: {
-    bakgroundColor: 'white',
+    backgroundColor: 'white',
     padding: 20,
     marginBottom: 10,
     borderRadius: 15
