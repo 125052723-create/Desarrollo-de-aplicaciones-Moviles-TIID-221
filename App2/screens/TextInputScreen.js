@@ -1,16 +1,89 @@
 
 /* 1. Zona de importaciones */
-import { StyleSheet, View, Text } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, Button, Alert, ScrollView } from 'react-native';
 
 
 /* 2. Zona render o Main */
 
 export default function TextInputScreen() {
+
+  //STATE de cada TextInput
+  const [nombre, setNombre] = useState('');
+  const [edad, setEdad] = useState('');
+  const [password, setPassword] = useState('');
+  const [comentario, setComentario] = useState('');
+  
+  const alertaSimple = ()=>{
+    Alert.alert('Hola', 'Esta es una alerta simple');
+  }
+
+  const alertaDosBotones = () => {
+    Alert.alert('Confirmar', 'Desea continuar?', [
+      {text: 'Cancelar'},
+      {text: 'Aceptar'}
+    ])
+  }
+
+  const mostrarNombre = ()=>{
+    Alert.alert('Tu nombre', nombre === '' ? 'No escribiste nada xD' : nombre)
+  }
+
   return (
-    <View style={styles.container}>
-      <Text> Practica 12. </Text>
-      <Text> Lourdes Guadalupe Azuara Orta</Text>
-    </View>
+    <ScrollView contentContainerStyle = {styles.container}>
+      <Text style={styles.titulo}>TextInput y Alert</Text>
+
+      <Text style={styles.subtitulo}>1. TextInput basico</Text>
+      
+      <TextInput
+      style={styles.input}
+      placeholder='Escribe tu nombre'
+      value={nombre}
+      onChangeText={setNombre}
+      />
+
+      <Text>Escribiste: {nombre}</Text>
+
+      <Text style={styles.subtitulo}>2. Teclado Numerico</Text>
+      <TextInput
+      style={styles.input}
+      placeholder='Edad'
+      keyboardType='numeric'
+      maxLength={3}
+      value={edad}
+      onChangeText={setEdad}
+      />
+
+      <Text style={styles.subtitulo}>3. Contraseña (secureTextEntry)</Text>
+      <TextInput
+      style={styles.input}
+      placeholder='Contraseña'
+      secureTextEntry={true}
+      value={password}
+      onChangeText={setPassword}
+      />
+
+      <Text style={styles.subtitulo}>4.  Varias lineas</Text>
+      <TextInput
+      style={[styles.input, styles.grande]}
+      placeholder='Escribe un comentario'
+      multiline={true}
+      numberOfLines={4}
+      value={comentario}
+      onChangeText={setComentario}
+      />
+
+      <Text style={styles.subtitulo}>Ejemplos de Alert</Text>
+      <View styles={styles.boton}> 
+        <Button title='alerta simple' onPress={alertaSimple}/>
+      </View>
+      <View style={styles.boton}>
+        <Button title='Alerta con dos botones' onPress={alertaDosBotones}/>
+      </View>
+      <View style={styles.boton}>
+        <Button title='Mostrar mi nombre' onPress={mostrarNombre}/>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -18,10 +91,27 @@ export default function TextInputScreen() {
 /* 3. Zona de estilos y posicionamientos */
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#f4eed5',
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'left',
+    padding: 24, paddingTop: 60, backgroundColor: '#fff'
+  },
+  titulo:{
+    fontSize: 24,
+    fontWeight: 'bold', marginTop: 16, marginBottom: 6
+  },
+  subtitulo:{
+    fontSize: 16, fontWeight: 'bold', marginTop: 16, marginBottom: 6
+  },
+  input:{
+    borderWidth: 1,
+    borderColor: '#999',
+    borderRadius: 6,
+    padding: 10,
+    fontSize: 16
+  },
+  grande:{
+    height: 90,
+    textAlignVertical: 'top',
+  },
+  boton:{
+    marginBottom: 10
   }
 });
