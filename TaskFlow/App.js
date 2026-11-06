@@ -32,10 +32,10 @@ export default function App(){
     }
 
     return(
-        <GestureHandlerRootView style={StyleSheet.root}>
+        <GestureHandlerRootView style={styles.root}>
             <StatusBar barStyle='dark-content'/>
             <View style={styles.container}>
-                <Text style={styles.title} TaskFlow></Text>
+                <Text style={styles.title}>TaskFlow</Text>
                 <Text style={styles.subtitle}>Organiza tus tareas</Text>
 
                 <Pressable style={styles.primaryButton} onPress={() => {setModalVisible(true)}}>
@@ -62,6 +62,9 @@ export default function App(){
                         <Text style={styles.description}>Escribe el nombre de tu actividad.</Text>
                         <TextInput style={styles.input} placeholder='Ej. Estudiar React Native' value={task} onChangeText={setTask} />
 
+                        <Pressable style={styles.primaryButton} onPress={saveTask}>
+                            <Text style={styles.buttonText}>Guardar tarea</Text>
+                        </Pressable>
                         <Pressable style={styles.cancelButton} onPress={() => setModalVisible(false)}>
                             <Text style={styles.cancelText}>Cancelar</Text>
                         </Pressable>
@@ -75,16 +78,17 @@ export default function App(){
                     <Text style={styles.sheetTitle}>Selecciona la prioridad</Text>
                     <Text style={styles.description}>Elige la importancia de tu tarea.</Text>
                     {['Baja', 'Media', 'Alta'].map((item) => {
-                        <Pressable key={item} style={[styles.priorityOption, priority === item && styles.selectedOption]}
-                        onPress={() => selectPriority(item)}>
-                            <Text style={[styles.priorityText, priority === item && styles.selectedText]}>{item}</Text>
+                        return (
+                            <Pressable key={item} style={[styles.priorityOption, priority === item && styles.selectedOption]}
+                            onPress={() => selectPriority(item)}>
+                                <Text style={[styles.priorityText, priority === item && styles.selectedText]}>{item}</Text>
 
-                            {priority == item && (
-                                <Text style={styles.checkmark}>✅</Text>
-                            )
+                                {priority === item && (
+                                    <Text style={styles.checkmark}>✅</Text>
+                                )}
+                            </Pressable>
+                        );
 
-                            }
-                        </Pressable>
                     })}
                 </BottomSheetView>
             </BottomSheet>
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
         marginBottom: 32,
     },
     primaryButton:{
-        backgroundColor: '#SB4AE8',
+        backgroundColor: '#5B4AE8',
         padding: 16,
         borderRadius: 12,
         alignItems: 'center',
@@ -197,7 +201,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF'
     },
     handleIndicator:{
-        backgroundColor: 'C8C7D2',
+        backgroundColor: '#C8C7D2',
         width: 42
     },
     sheetContent:{

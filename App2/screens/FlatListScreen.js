@@ -8,8 +8,8 @@ import { useState } from 'react';
 
 export default function FlatListScreen() {
 
-  const [vistaActual, setVistaActual] = React.useState('flat');
-  const [serviciosFlat, setServiciosFlat] = React.useState([
+  const [vistaActual, setVistaActual] = useState('flat');
+  const [serviciosFlat, setServiciosFlat] = useState([
     { id: '1', titulo: 'Clase de ingles', categoria: 'Educacion' },
     { id: '2', titulo: 'Reparacion de PC', categoria: 'Tecnologia' }
   ]);
@@ -32,7 +32,7 @@ export default function FlatListScreen() {
       </View>
       {vistaActual === 'flat' ? (
         <View style={styles.content}>
-          <Text stye={styles.sub}>Flatlist</Text>
+          <Text style={styles.sub}>Flatlist</Text>
           <FlatList
             data={serviciosFlat}
             keyExtractor={(item) => item.id}
