@@ -1,15 +1,16 @@
 import React, {useState, useRef, useMemo, useCallback} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import {View, Text, Modal, TextInput, Pressable, StyleSheet, StatusBar} from 'react-native';
+import {View, Text, Modal, TextInput, Pressable, StyleSheet, StatusBar, FlatList} from 'react-native';
 import BottomSheet, { BottomSheetView} from '@gorhom/bottom-sheet';
 
 export default function App(){
     const [modalVisible, setModalVisible ] = useState(false);
     const [task, setTask] = useState('');
-    const [savedTask, setSavedTask] = useState('');
+    const [tasks, setTasks] = useState([]);
     const [priority, setPriority] = useState('Media');
 
     const bottomSheetRef = useRef(null);
+    const nextTaskId = useRef(0);
     const snapPoints = useMemo(() => ['35%', '55%'], []);
 
     const openBottomSheet = useCallback(() => {
@@ -17,11 +18,19 @@ export default function App(){
     }, []);
 
     const saveTask = () => {
-        if(task.trim() === ''){
+        const taskName = task.trim();
+        if(taskName === ''){
             return;
         }
 
-        setSavedTask(task.trim());
+        setTasks((currentTasks) => [
+            ...currentTasks,
+            {
+                id: nextTaskId.current++,
+                name: taskName,
+                priority
+            }
+        ]);
         setTask('');
         setModalVisible(false);
     };
@@ -35,8 +44,8 @@ export default function App(){
         <GestureHandlerRootView style={styles.root}>
             <StatusBar barStyle='dark-content'/>
             <View style={styles.container}>
-                <Text style={styles.title}>TaskFlow</Text>
-                <Text style={styles.subtitle}>Organiza tus tareas</Text>
+                <Text style={styles.title}>Organiza tus tareas</Text>
+                <Text style={styles.subtitle}>Crea una nueva tarea</Text>
 
                 <Pressable style={styles.primaryButton} onPress={() => {setModalVisible(true)}}>
                     <Text style={styles.buttonText}>+ Nueva Tarea</Text>
@@ -46,13 +55,19 @@ export default function App(){
                     <Text style={styles.buttonText}>Seleccionar prioridad</Text>
                 </Pressable>
 
-                {savedTask !== '' && (
-                    <View style={styles.taskCard}>
-                        <Text style={styles.cardTitle}>Mi tarea</Text>
-                        <Text style={styles.taskText}>{savedTask}</Text>
-                        <Text style={styles.priorityText}>Prioridad: {priority}</Text>
-                    </View>
-                )}
+                <FlatList
+                    style={styles.tasksList}
+                    contentContainerStyle={styles.tasksListContent}
+                    data={tasks}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({item, index}) => (
+                        <View style={styles.taskCard}>
+                            <Text style={styles.cardTitle}>Tarea {index + 1}</Text>
+                            <Text style={styles.taskText}>{item.name}</Text>
+                            <Text style={styles.priorityText}>Prioridad: {item.priority}</Text>
+                        </View>
+                    )}
+                />
             </View>
 
             <Modal visible={modalVisible} animationType='slide' transparent onRequestClose={() => setModalVisible(false)}>
@@ -82,10 +97,6 @@ export default function App(){
                             <Pressable key={item} style={[styles.priorityOption, priority === item && styles.selectedOption]}
                             onPress={() => selectPriority(item)}>
                                 <Text style={[styles.priorityText, priority === item && styles.selectedText]}>{item}</Text>
-
-                                {priority === item && (
-                                    <Text style={styles.checkmark}>✅</Text>
-                                )}
                             </Pressable>
                         );
 
@@ -142,8 +153,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         padding: 20,
         borderRadius: 16,
-        elevation: 3
+        elevation: 3,
+        marginBottom: 12
     },
+    tasksList:{flex: 1},
+    tasksListContent:{paddingBottom: 12},
     cardTitle:{
         fontSize: 20,
         fontWeight: 'bold',
@@ -231,11 +245,6 @@ const styles = StyleSheet.create({
     },
     selectedText:{
         color: '#5144D8',
-        fontWeight: 'bold'
-    },
-    checkmark:{
-        color: '#5144D8',
-        fontSize: 20,
         fontWeight: 'bold'
     }
 });
