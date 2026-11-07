@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, ImageBackground, StyleSheet, TextInput, Alert, FlatList, Pressable, SafeAreaView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, TextInput, Alert, FlatList, Pressable, SafeAreaView, ActivityIndicator } from 'react-native';
 
 function TextInputScreen({ titulo, value, onChangeText }) {
     return (
@@ -19,6 +19,7 @@ function TextInputScreen({ titulo, value, onChangeText }) {
 export default function RegistroScreen() {
 
     const [cargando, setCargando] = useState(true);
+    const [cargandoLibro, setCargandoLibro] = useState(false);
     const [titulo, setTitulo] = useState('');
     const [autor, setAutor] = useState('');
     const [genero, setGenero] = useState('');
@@ -35,6 +36,7 @@ export default function RegistroScreen() {
         const nombreLibro = titulo.trim();
         const autorLibro = autor.trim();
         const generoLibro = genero.trim();
+
         if (nombreLibro === '' || autorLibro === '' || generoLibro === '') {
             Alert.alert(
                 'Campos vacíos',
@@ -64,13 +66,21 @@ export default function RegistroScreen() {
         setAutor('');
         setGenero('');
 
-        Alert.alert(
-            'Libro guardado',
-            `Titulo: ${nombreLibro}
-             Autor: ${autorLibro}
-             Genero: ${generoLibro}
+        setCargandoLibro(true);
+
+        setTimeout(() => {
+            setCargandoLibro(false);
+            Alert.alert(
+                'Libro guardado correctamente',
+                `
+            Titulo: ${nombreLibro}
+            Autor: ${autorLibro}
+            Genero: ${generoLibro}
             `
-        );
+            );
+        }, 4000);
+
+
 
     }
 
@@ -89,7 +99,7 @@ export default function RegistroScreen() {
 
     return (
         <ImageBackground
-            source={require('../assets/library.jpg')}
+            source={require('../assets/library.jpeg')}
             resizeMode='cover'
             style={styles.background}
         >
@@ -112,11 +122,30 @@ export default function RegistroScreen() {
                         onChangeText={setGenero}
                     />
 
-                    <Pressable style={styles.guardarLibro} onPress={guardarLibro}>
+                    <Pressable
+                        style={[
+                            styles.guardarLibro,
+                            cargandoLibro && styles.guardarLibroDeshabilitado
+                        ]}
+                        onPress={guardarLibro}
+                        disabled={cargandoLibro}
+                    >
                         <Text style={styles.guardarLibroText}>
-                            Agregar libro
+                            {cargandoLibro ? 'Guardando...' : 'Agregar libro'}
                         </Text>
                     </Pressable>
+
+                    {cargandoLibro && (
+                    <>
+                        <ActivityIndicator
+                            color="#1783c6"
+                            size="large"
+                            style={styles.indicador}
+                        />
+                        <Text style={styles.texto}>Guardando...</Text>
+                    </>
+                )
+                }
 
                     <Text style={styles.totalLibros}>
                         Total de libros: {libros.length}
@@ -135,6 +164,7 @@ export default function RegistroScreen() {
                         </View>
                     )}
                 />
+
             </SafeAreaView>
         </ImageBackground>
     );
@@ -238,8 +268,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center'
     },
+    guardarLibroDeshabilitado: {
+        backgroundColor: '#808080'
+    },
     guardarLibroText: {
         color: '#FFFFFF',
         fontWeight: 'bold',
-    }
+    },
+    indicador: {
+        margin: 16,
+        alignSelf: 'center'
+    },
+    texto: {
+        textAlign: 'center',
+        color: '#fff'
+    },
 });
