@@ -74,7 +74,7 @@ export default function TextInputScreen() {
       />
 
       <Text style={styles.subtitulo}>Ejemplos de Alert</Text>
-      <View styles={styles.boton}> 
+      <View style={styles.boton}> 
         <Button title='alerta simple' onPress={alertaSimple}/>
       </View>
       <View style={styles.boton}>
